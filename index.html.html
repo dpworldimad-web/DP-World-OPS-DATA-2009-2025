@@ -1,0 +1,1465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DP World Djazair — Operational Excellence Report 2009–2025</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;600;700;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #001A3C;
+    --navy-mid: #002A5C;
+    --navy-light: #003D7A;
+    --gold: #D4A843;
+    --gold-light: #F0C860;
+    --gold-dim: rgba(212,168,67,0.15);
+    --white: #FFFFFF;
+    --off-white: #F5F7FA;
+    --gray: #B0B8C4;
+    --gray-dark: #6B7785;
+    --success: #00C896;
+    --danger: #E84040;
+    --accent: #00A8E8;
+    --card-bg: rgba(0,42,92,0.85);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Barlow', sans-serif;
+    background: var(--navy);
+    color: var(--white);
+    overflow-x: hidden;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    padding: 70px 60px 60px;
+    background: linear-gradient(135deg, #000D1F 0%, #001A3C 40%, #002A5C 100%);
+    border-bottom: 2px solid var(--gold);
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -100px; right: -100px;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(212,168,67,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 40px;
+    max-width: 1300px;
+    margin: 0 auto;
+  }
+  .hero-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+  .hero h1 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 64px;
+    font-weight: 900;
+    line-height: 0.95;
+    letter-spacing: -1px;
+    color: var(--white);
+    text-transform: uppercase;
+  }
+  .hero h1 span { color: var(--gold); }
+  .hero-sub {
+    margin-top: 16px;
+    font-size: 16px;
+    font-weight: 300;
+    color: var(--gray);
+    letter-spacing: 0.5px;
+  }
+  .hero-period {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+  }
+  .hero-period .year {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 88px;
+    font-weight: 900;
+    line-height: 1;
+    color: rgba(212,168,67,0.2);
+    letter-spacing: -4px;
+  }
+  .hero-period .range {
+    font-size: 12px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    text-transform: uppercase;
+  }
+
+  /* ── HEADLINE STATS ── */
+  .headline-stats {
+    background: var(--gold);
+    padding: 24px 60px;
+  }
+  .headline-stats-inner {
+    max-width: 1300px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0;
+  }
+  .h-stat {
+    padding: 8px 20px;
+    border-right: 1px solid rgba(0,26,60,0.2);
+    text-align: center;
+  }
+  .h-stat:last-child { border-right: none; }
+  .h-stat .val {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 38px;
+    font-weight: 900;
+    color: var(--navy);
+    line-height: 1;
+  }
+  .h-stat .lbl {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(0,26,60,0.65);
+    margin-top: 4px;
+  }
+
+  /* ── MAIN LAYOUT ── */
+  .main {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 60px 40px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 32px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(212,168,67,0.3);
+  }
+  .section-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: var(--gold);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .section-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .section-title span { color: var(--gold); }
+
+  .section-divider {
+    margin: 60px 0;
+    border: none;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--card-bg);
+    border: 1px solid rgba(212,168,67,0.15);
+    border-radius: 4px;
+    padding: 28px 32px;
+    backdrop-filter: blur(10px);
+  }
+  .card-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+  }
+
+  /* ── CHART GRIDS ── */
+  .chart-full { margin-bottom: 32px; }
+  .chart-2col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+  .chart-3col {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+  .chart-2_1 {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+
+  /* ── KPI METRICS STRIP ── */
+  .kpi-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  .kpi-card {
+    background: var(--card-bg);
+    border: 1px solid rgba(212,168,67,0.12);
+    border-radius: 4px;
+    padding: 24px 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .kpi-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 100%;
+    background: var(--gold);
+  }
+  .kpi-card.success::before { background: var(--success); }
+  .kpi-card.danger::before { background: var(--danger); }
+  .kpi-card.accent::before { background: var(--accent); }
+  .kpi-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--gray);
+    margin-bottom: 10px;
+  }
+  .kpi-value {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 42px;
+    font-weight: 900;
+    line-height: 1;
+    color: var(--white);
+  }
+  .kpi-value.gold { color: var(--gold); }
+  .kpi-value.green { color: var(--success); }
+  .kpi-value.blue { color: var(--accent); }
+  .kpi-sub {
+    font-size: 11px;
+    color: var(--gray);
+    margin-top: 6px;
+  }
+  .kpi-delta {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 2px;
+    margin-top: 8px;
+  }
+  .kpi-delta.up { background: rgba(0,200,150,0.15); color: var(--success); }
+  .kpi-delta.down { background: rgba(0,200,150,0.15); color: var(--success); }
+  .kpi-delta.warn { background: rgba(232,64,64,0.15); color: var(--danger); }
+
+  /* ── INSIGHT BOXES ── */
+  .insight-box {
+    background: rgba(212,168,67,0.07);
+    border: 1px solid rgba(212,168,67,0.25);
+    border-left: 3px solid var(--gold);
+    border-radius: 4px;
+    padding: 16px 20px;
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--gray);
+    margin-top: 16px;
+  }
+  .insight-box strong { color: var(--gold-light); }
+
+  /* ── TIME FLOW DIAGRAM ── */
+  .time-flow {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    margin: 24px 0;
+  }
+  .tf-block {
+    flex: 1;
+    padding: 20px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+  }
+  .tf-block::after {
+    content: '→';
+    position: absolute;
+    right: -8px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--gold);
+    font-size: 18px;
+    z-index: 1;
+  }
+  .tf-block:last-child::after { display: none; }
+  .tf-block.anchor { background: rgba(0,168,232,0.1); border: 1px solid rgba(0,168,232,0.25); }
+  .tf-block.berth { background: rgba(212,168,67,0.08); border: 1px solid rgba(212,168,67,0.2); }
+  .tf-block.total { background: rgba(0,200,150,0.08); border: 1px solid rgba(0,200,150,0.2); }
+  .tf-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--gray); margin-bottom: 10px; }
+  .tf-2009 { font-family: 'Barlow Condensed', sans-serif; font-size: 28px; font-weight: 700; color: var(--danger); }
+  .tf-2025 { font-family: 'Barlow Condensed', sans-serif; font-size: 28px; font-weight: 700; color: var(--success); }
+  .tf-unit { font-size: 10px; color: var(--gray); }
+  .tf-arrow { color: var(--gold); font-size: 20px; margin: 8px 0; }
+  .tf-red { color: var(--danger); font-size: 11px; font-weight: 600; }
+  .tf-grn { color: var(--success); font-size: 11px; font-weight: 600; }
+
+  /* ── CORRELATION TABLE ── */
+  .corr-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  .corr-item {
+    background: rgba(0,42,92,0.6);
+    border: 1px solid rgba(212,168,67,0.12);
+    border-radius: 4px;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .corr-icon {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+  .corr-icon.pos { background: rgba(0,200,150,0.15); }
+  .corr-icon.neg { background: rgba(0,168,232,0.15); }
+  .corr-text { flex: 1; }
+  .corr-pair { font-size: 11px; font-weight: 600; color: var(--gold-light); margin-bottom: 4px; }
+  .corr-desc { font-size: 12px; color: var(--gray); line-height: 1.5; }
+  .corr-badge {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  .corr-badge.pos { color: var(--success); }
+  .corr-badge.neg { color: var(--accent); }
+
+  /* ── FOOTER ── */
+  .footer {
+    border-top: 1px solid rgba(212,168,67,0.2);
+    padding: 24px 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #000D1F;
+    font-size: 11px;
+    color: var(--gray-dark);
+  }
+  .footer strong { color: var(--gold); }
+
+  /* Chart container heights */
+  .chart-container { position: relative; }
+  .h-400 { height: 400px; }
+  .h-320 { height: 320px; }
+  .h-280 { height: 280px; }
+  .h-260 { height: 260px; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════ HERO ═══════════ -->
+<div class="hero">
+  <div class="hero-grid">
+    <div>
+      <div class="hero-label">Operational Excellence Report · Data-Driven Analysis</div>
+      <h1>DP World<br><span>Djazair</span></h1>
+      <div class="hero-sub">Performance Transformation &amp; KPI Evolution · Port of Bejaia, Algeria</div>
+    </div>
+    <div class="hero-period">
+      <div class="year">16</div>
+      <div class="range">Years of Data · 2009 → 2025</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ HEADLINE STATS ═══════════ -->
+<div class="headline-stats">
+  <div class="headline-stats-inner">
+    <div class="h-stat">
+      <div class="val">4.06%</div>
+      <div class="lbl">TEU CAGR 2009–2025</div>
+    </div>
+    <div class="h-stat">
+      <div class="val">+89%</div>
+      <div class="lbl">Throughput Growth</div>
+    </div>
+    <div class="h-stat">
+      <div class="val">+104%</div>
+      <div class="lbl">Crane Productivity Gain</div>
+    </div>
+    <div class="h-stat">
+      <div class="val">−36.7%</div>
+      <div class="lbl">Port Call Duration</div>
+    </div>
+    <div class="h-stat">
+      <div class="val">+71%</div>
+      <div class="lbl">TEU per Vessel Growth</div>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- ═══════════ SECTION 1: THROUGHPUT ═══════════ -->
+  <div class="section-header">
+    <div class="section-num">01 — Volume &amp; Throughput</div>
+    <div class="section-title">Scale <span>Transformation</span></div>
+  </div>
+
+  <div class="kpi-strip">
+    <div class="kpi-card">
+      <div class="kpi-label">Monthly TEU 2009</div>
+      <div class="kpi-value gold">277K</div>
+      <div class="kpi-sub">Baseline year</div>
+    </div>
+    <div class="kpi-card success">
+      <div class="kpi-label">Monthly TEU 2025</div>
+      <div class="kpi-value green">524K</div>
+      <div class="kpi-sub">+89% vs 2009</div>
+      <div class="kpi-delta up">↑ CAGR 4.06%</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Container Boxes 2009</div>
+      <div class="kpi-value gold">181K</div>
+      <div class="kpi-sub">Units/year</div>
+    </div>
+    <div class="kpi-card success">
+      <div class="kpi-label">Container Boxes 2025</div>
+      <div class="kpi-value green">317K</div>
+      <div class="kpi-sub">+75% vs 2009</div>
+      <div class="kpi-delta up">↑ CAGR 3.56%</div>
+    </div>
+  </div>
+
+  <div class="chart-full">
+    <div class="card">
+      <div class="card-title">Monthly Throughput (TEUs) — 2009 to 2025</div>
+      <div class="chart-container h-400">
+        <canvas id="chartTEU"></canvas>
+      </div>
+      <div class="insight-box">
+        <strong>Key insight:</strong> From 277,568 TEUs in 2009 to 524,413 TEUs in 2025 — a <strong>+89% increase</strong> representing a compounded annual growth rate of <strong>4.06%</strong>. The 2016 peak followed by the 2017–2020 correction reflects Algeria's broader import restrictions, before a powerful recovery trajectory from 2021 onward.
+      </div>
+    </div>
+  </div>
+
+  <div class="chart-2col">
+    <div class="card">
+      <div class="card-title">Container Boxes Volume Growth vs Prior Year</div>
+      <div class="chart-container h-320">
+        <canvas id="chartVolumeGrowth"></canvas>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Vessel Calls per Year vs Containers per Vessel</div>
+      <div class="chart-container h-320">
+        <canvas id="chartVesselsTPV"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <hr class="section-divider">
+
+  <!-- ═══════════ SECTION 2: VESSEL PRODUCTIVITY ═══════════ -->
+  <div class="section-header">
+    <div class="section-num">02 — Vessel Productivity</div>
+    <div class="section-title">TEU per Vessel <span>Expansion</span></div>
+  </div>
+
+  <div class="kpi-strip">
+    <div class="kpi-card">
+      <div class="kpi-label">TEU / Vessel 2009</div>
+      <div class="kpi-value gold">995</div>
+      <div class="kpi-sub">TEUs per vessel call</div>
+    </div>
+    <div class="kpi-card success">
+      <div class="kpi-label">TEU / Vessel 2025</div>
+      <div class="kpi-value green">1,697</div>
+      <div class="kpi-sub">+70.6% vs 2009</div>
+      <div class="kpi-delta up">↑ CAGR 3.39%</div>
+    </div>
+    <div class="kpi-card accent">
+      <div class="kpi-label">Crane Productivity 2009</div>
+      <div class="kpi-value blue">5.09</div>
+      <div class="kpi-sub">Moves/crane/hour</div>
+    </div>
+    <div class="kpi-card success">
+      <div class="kpi-label">Crane Productivity 2025</div>
+      <div class="kpi-value green">10.39</div>
+      <div class="kpi-sub">+104% gain</div>
+      <div class="kpi-delta up">↑ 2× improvement</div>
+    </div>
+  </div>
+
+  <div class="chart-2_1">
+    <div class="card">
+      <div class="card-title">TEU per Vessel — Volume Expansion Over Time</div>
+      <div class="chart-container h-320">
+        <canvas id="chartTPV"></canvas>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Crane Productivity (CGMPH)</div>
+      <div class="chart-container h-320">
+        <canvas id="chartCrane"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:32px">
+    <div class="card-title">TEU Ratio (TEU Factor per Box) — Unitization Index</div>
+    <div class="chart-container h-260">
+      <canvas id="chartRatio"></canvas>
+    </div>
+    <div class="insight-box">
+      <strong>TEU/Vessel:</strong> Growth from 995 → 1,697 TEUs/vessel (+70.6%) reflects the handling of larger, more loaded vessels — a direct sign of increased port attractiveness and operational capacity. <strong>Crane productivity doubled</strong> (5.09 → 10.39 CGMPH), meaning each crane now handles twice the cargo per hour.
+    </div>
+  </div>
+
+  <hr class="section-divider">
+
+  <!-- ═══════════ SECTION 3: TIME ANALYSIS ═══════════ -->
+  <div class="section-header">
+    <div class="section-num">03 — Operational Time Flow</div>
+    <div class="section-title">Port Call <span>Duration</span> Breakdown</div>
+  </div>
+
+  <!-- Time Flow Diagram -->
+  <div class="card" style="margin-bottom:32px">
+    <div class="card-title">Average Vessel Port Call Flow — 2009 vs 2025</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-bottom:24px;">
+      <div>
+        <div style="font-size:11px;letter-spacing:3px;color:var(--danger);text-transform:uppercase;margin-bottom:12px;font-weight:600;">2009 — Baseline</div>
+        <div class="time-flow">
+          <div class="tf-block anchor">
+            <div class="tf-label">⚓ Anchorage</div>
+            <div class="tf-2009">11.45</div>
+            <div class="tf-unit">days</div>
+            <div style="margin-top:6px;font-size:10px;color:var(--danger);">51% of total</div>
+          </div>
+          <div class="tf-block berth">
+            <div class="tf-label">🚢 At Berth</div>
+            <div class="tf-2009">6.08</div>
+            <div class="tf-unit">days</div>
+            <div style="margin-top:6px;font-size:10px;color:var(--gold);">35% of total</div>
+          </div>
+          <div class="tf-block total">
+            <div class="tf-label">⏱ Port Call</div>
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:36px;font-weight:900;color:var(--danger);">17.53</div>
+            <div class="tf-unit">days total</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:11px;letter-spacing:3px;color:var(--success);text-transform:uppercase;margin-bottom:12px;font-weight:600;">2025 — Current</div>
+        <div class="time-flow">
+          <div class="tf-block anchor">
+            <div class="tf-label">⚓ Anchorage</div>
+            <div class="tf-2025">5.59</div>
+            <div class="tf-unit">days</div>
+            <div style="margin-top:6px;font-size:10px;color:var(--success);">−51.2%</div>
+          </div>
+          <div class="tf-block berth">
+            <div class="tf-label">🚢 At Berth</div>
+            <div class="tf-2025">5.52</div>
+            <div class="tf-unit">days</div>
+            <div style="margin-top:6px;font-size:10px;color:var(--success);">−9.2%</div>
+          </div>
+          <div class="tf-block total">
+            <div class="tf-label">⏱ Port Call</div>
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:36px;font-weight:900;color:var(--success);">11.10</div>
+            <div class="tf-unit">days total</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center;padding:16px;background:rgba(0,200,150,0.08);border:1px solid rgba(0,200,150,0.2);border-radius:4px;">
+      <span style="font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:700;color:var(--success);">Port Call Reduced by 6.43 days (−36.7%) · Peak efficiency: 2.90 days in 2018</span>
+    </div>
+  </div>
+
+  <div class="chart-2col">
+    <div class="card">
+      <div class="card-title">Anchorage, Berth &amp; Port Call Duration (days)</div>
+      <div class="chart-container h-320">
+        <canvas id="chartTimeStack"></canvas>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Port Call Efficiency Index (lower = better)</div>
+      <div class="chart-container h-320">
+        <canvas id="chartPortCall"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="chart-full">
+    <div class="card">
+      <div class="card-title">Anchorage vs Berth Time — Stacked Area (Time Composition)</div>
+      <div class="chart-container h-340">
+        <canvas id="chartTimeArea"></canvas>
+      </div>
+      <div class="insight-box">
+        <strong>Critical shift:</strong> In 2009, anchorage time alone consumed <strong>11.45 days</strong> — representing dead waiting time. By 2018 it reached a historic low of <strong>0.37 days</strong>, demonstrating near-frictionless vessel turnaround. The total port call duration fell from <strong>17.53 → 2.90 days</strong> at best, a <strong>−83.5% reduction</strong>. Current 2025 levels (11.10 days) include elevated anchorage (5.59 days) from capacity/demand dynamics.
+      </div>
+    </div>
+  </div>
+
+  <hr class="section-divider">
+
+  <!-- ═══════════ SECTION 4: DWELL & OCCUPANCY ═══════════ -->
+  <div class="section-header">
+    <div class="section-num">04 — Yard &amp; Berth Performance</div>
+    <div class="section-title">Occupancy &amp; <span>Dwell</span> Analysis</div>
+  </div>
+
+  <div class="chart-3col">
+    <div class="card">
+      <div class="card-title">Berth Occupancy % by Year</div>
+      <div class="chart-container h-280">
+        <canvas id="chartBerth"></canvas>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Yard Occupancy % by Year</div>
+      <div class="chart-container h-280">
+        <canvas id="chartYard"></canvas>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Container Dwell Time (Days)</div>
+      <div class="chart-container h-280">
+        <canvas id="chartDwell"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="insight-box" style="margin-bottom:32px;">
+    <strong>Berth Occupancy:</strong> Increased from 76.8% (2010) to <strong>91.9% (2024)</strong> — confirming near-saturation and the need for capacity expansion. <strong>Yard occupancy</strong> peaked at 95.8% (2010) and has stabilized in the 80% range, indicating improved yard management. <strong>Dwell time</strong> improved from 22.5 days (2009) → <strong>18.6 days (2025)</strong>, a −17.1% reduction showing faster cargo clearance.
+  </div>
+
+  <hr class="section-divider">
+
+  <!-- ═══════════ SECTION 5: CAGR SUMMARY ═══════════ -->
+  <div class="section-header">
+    <div class="section-num">05 — CAGR Summary</div>
+    <div class="section-title">Compound Annual <span>Growth</span></div>
+  </div>
+
+  <div class="chart-2_1">
+    <div class="card">
+      <div class="card-title">CAGR Comparison — All Key Metrics (2009 → 2025)</div>
+      <div class="chart-container h-320">
+        <canvas id="chartCAGR"></canvas>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Indexed Performance (2009 = 100)</div>
+      <div class="chart-container h-320">
+        <canvas id="chartIndexed"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <hr class="section-divider">
+
+  <!-- ═══════════ SECTION 6: CORRELATION ═══════════ -->
+  <div class="section-header">
+    <div class="section-num">06 — Correlation Analysis</div>
+    <div class="section-title">Cause &amp; <span>Effect</span> Relationships</div>
+  </div>
+
+  <div class="chart-2col" style="margin-bottom:24px;">
+    <div class="card">
+      <div class="card-title">TEU/Vessel vs Crane Productivity — Correlation</div>
+      <div class="chart-container h-280">
+        <canvas id="chartCorr1"></canvas>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Port Call Duration vs TEU/Vessel</div>
+      <div class="chart-container h-280">
+        <canvas id="chartCorr2"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:32px;">
+    <div class="card-title">Operational Correlation Matrix — Key Findings</div>
+    <div class="corr-grid">
+      <div class="corr-item">
+        <div class="corr-icon pos">📈</div>
+        <div class="corr-text">
+          <div class="corr-pair">Crane Productivity ↔ TEU/Vessel</div>
+          <div class="corr-desc">Higher crane productivity (CGMPH) directly enables handling of larger, more loaded vessels. As cranes became twice as efficient, average vessel cargo grew +70.6%.</div>
+        </div>
+        <div class="corr-badge pos">STRONG +</div>
+      </div>
+      <div class="corr-item">
+        <div class="corr-icon neg">🔽</div>
+        <div class="corr-text">
+          <div class="corr-pair">Port Call Duration ↔ Vessel Throughput</div>
+          <div class="corr-desc">Faster port calls (−36.7%) attract larger vessels and higher call frequency. Reduced turnaround is a direct driver of volume growth and shipper confidence.</div>
+        </div>
+        <div class="corr-badge neg">INVERSE −</div>
+      </div>
+      <div class="corr-item">
+        <div class="corr-icon neg">⚓</div>
+        <div class="corr-text">
+          <div class="corr-pair">Anchorage Time ↔ Overall Port Efficiency</div>
+          <div class="corr-desc">Anchorage reduction (11.45 → 5.59 days) is the single largest contributor to port call improvement, accounting for over 86% of total time saved.</div>
+        </div>
+        <div class="corr-badge neg">DRIVER −</div>
+      </div>
+      <div class="corr-item">
+        <div class="corr-icon pos">🏗️</div>
+        <div class="corr-text">
+          <div class="corr-pair">Berth Occupancy ↔ TEU Growth</div>
+          <div class="corr-desc">Rising berth occupancy (76.8% → 91.9%) confirms that throughput growth is approaching physical capacity limits — signaling the need for infrastructure expansion.</div>
+        </div>
+        <div class="corr-badge pos">CAPACITY +</div>
+      </div>
+      <div class="corr-item">
+        <div class="corr-icon neg">📦</div>
+        <div class="corr-text">
+          <div class="corr-pair">Dwell Time ↔ Yard Efficiency</div>
+          <div class="corr-desc">Container dwell time reduction (22.5 → 18.6 days, −17.1%) freed yard space, enabling higher throughput without proportional yard expansion.</div>
+        </div>
+        <div class="corr-badge neg">GAINS −</div>
+      </div>
+      <div class="corr-item">
+        <div class="corr-icon pos">🔄</div>
+        <div class="corr-text">
+          <div class="corr-pair">TEU Ratio ↔ Cargo Complexity</div>
+          <div class="corr-desc">TEU ratio increased from 1.53 → 1.65, indicating a systematic shift toward heavier, more complex cargo mixes — a sign of the port's growing role in the regional supply chain.</div>
+        </div>
+        <div class="corr-badge pos">SHIFT +</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="section-divider">
+
+  <!-- ═══════════ SECTION 7: COMPREHENSIVE OVERVIEW ═══════════ -->
+  <div class="section-header">
+    <div class="section-num">07 — Comprehensive Dashboard</div>
+    <div class="section-title">All KPIs <span>2009–2025</span></div>
+  </div>
+
+  <div class="chart-full">
+    <div class="card">
+      <div class="card-title">Multi-KPI Normalized Performance (All indicators indexed to 2009)</div>
+      <div class="chart-container h-400">
+        <canvas id="chartRadar"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="chart-full" style="margin-top:24px;">
+    <div class="card">
+      <div class="card-title">Complete KPI Heatmap — Year-over-Year Evolution</div>
+      <div id="heatmap" style="overflow-x:auto;margin-top:8px;"></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══════════ FOOTER ═══════════ -->
+<div class="footer">
+  <div><strong>DP World Djazair</strong> — Operational Excellence Analysis · 2009–2025</div>
+  <div>Source: Internal operational data · All calculations based on primary dataset</div>
+  <div>Prepared for Board &amp; Executive Stakeholders</div>
+</div>
+
+<script>
+// ═══════════ DATA ═══════════
+const years = [2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025];
+const vessels    = [279,334,379,390,359,382,441,500,423,384,291,314,293,290,308,320,309];
+const boxes      = [181264,226288,242251,248368,248791,279951,302337,337263,293281,277714,215262,227335,217657,225895,270238,296046,317420];
+const teus       = [277568,353783,380889,390297,390393,437893,470546,522131,462587,434215,368195,359423,340403,357730,429647,479845,524413];
+const volGrowth  = [null,27.46,7.66,2.47,0.02,12.17,7.46,10.96,-11.40,-6.13,-15.20,-2.38,-5.29,5.09,20.10,11.68,9.29];
+const tpv        = [994.87,1059.23,1004.98,1000.76,1087.45,1146.32,1067.00,1044.26,1093.59,1130.77,1265.27,1144.66,1161.78,1233.55,1394.96,1499.51,1697.13];
+const teuRatio   = [1.531,1.567,1.572,1.571,1.569,1.600,1.556,1.548,1.577,1.564,1.710,1.580,1.560,1.584,1.590,1.621,1.652];
+const anchorage  = [11.45,5.19,3.08,1.40,5.52,3.00,2.69,0.98,0.78,0.37,0.98,0.51,0.83,0.37,2.05,7.45,5.59];
+const berth      = [6.08,7.02,4.83,4.92,6.04,5.00,4.50,3.83,3.23,2.53,3.35,2.57,2.94,3.38,4.50,5.53,5.52];
+const portcall   = [17.53,12.22,7.90,6.32,11.56,8.00,7.19,4.69,4.01,2.90,4.34,3.08,3.77,3.75,6.55,12.99,11.10];
+const crane      = [5.09,4.97,7.16,7.63,6.00,7.00,7.12,8.04,8.29,14.60,14.30,15.58,14.64,13.66,11.00,9.53,10.39];
+const dwell      = [22.48,27.98,25.08,22.00,20.40,18.00,20.55,19.21,18.39,17.15,19.31,23.80,22.70,19.93,19.87,17.48,18.64];
+const berthOcc   = [90.0,76.8,67.0,35.0,38.6,34.0,68.9,67.4,50.6,46.0,74.96,42.7,58.1,42.5,73.2,91.9,86.5];
+const yardOcc    = [94.8,95.8,81.9,87.8,95.4,87.0,47.1,75.7,91.3,78.0,77.3,70.0,54.2,54.6,66.5,81.8,80.7];
+
+// ═══════════ CHART DEFAULTS ═══════════
+Chart.defaults.color = '#B0B8C4';
+Chart.defaults.font.family = "'Barlow', sans-serif";
+Chart.defaults.font.size = 11;
+
+const gridColor = 'rgba(255,255,255,0.06)';
+const baseOpts = (title) => ({
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: {
+    legend: { display: false },
+    tooltip: {
+      backgroundColor: '#001A3C',
+      borderColor: 'rgba(212,168,67,0.4)',
+      borderWidth: 1,
+      titleColor: '#D4A843',
+      bodyColor: '#B0B8C4',
+      padding: 10,
+    }
+  },
+  scales: {
+    x: {
+      grid: { color: gridColor },
+      ticks: { maxRotation: 45 }
+    },
+    y: {
+      grid: { color: gridColor }
+    }
+  }
+});
+
+// ─── CHART 1: Monthly TEU Area ───
+new Chart(document.getElementById('chartTEU'), {
+  type: 'line',
+  data: {
+    labels: years,
+    datasets: [{
+      label: 'Monthly Throughput (TEUs)',
+      data: teus,
+      borderColor: '#D4A843',
+      backgroundColor: 'rgba(212,168,67,0.1)',
+      borderWidth: 2.5,
+      fill: true,
+      tension: 0.4,
+      pointBackgroundColor: '#D4A843',
+      pointRadius: 4,
+      pointHoverRadius: 6
+    },{
+      label: 'Trend',
+      data: (() => {
+        const n = teus.length;
+        const x = teus.map((_,i) => i);
+        const mx = x.reduce((a,b) => a+b)/n;
+        const my = teus.reduce((a,b) => a+b)/n;
+        const b = x.reduce((s,xi,i)=>s+(xi-mx)*(teus[i]-my),0) / x.reduce((s,xi)=>s+(xi-mx)**2,0);
+        const a = my - b*mx;
+        return x.map(xi => Math.round(a + b*xi));
+      })(),
+      borderColor: 'rgba(0,200,150,0.5)',
+      borderWidth: 1.5,
+      borderDash: [6,3],
+      fill: false,
+      tension: 0,
+      pointRadius: 0
+    }]
+  },
+  options: {
+    ...baseOpts(),
+    plugins: {
+      ...baseOpts().plugins,
+      legend: { display: true, labels: { color: '#B0B8C4', boxWidth: 16 } }
+    }
+  }
+});
+
+// ─── CHART 2: Volume Growth Bars ───
+new Chart(document.getElementById('chartVolumeGrowth'), {
+  type: 'bar',
+  data: {
+    labels: years.slice(1),
+    datasets: [{
+      label: 'YoY Volume Growth %',
+      data: volGrowth.slice(1),
+      backgroundColor: volGrowth.slice(1).map(v => v >= 0 ? 'rgba(0,200,150,0.7)' : 'rgba(232,64,64,0.7)'),
+      borderColor: volGrowth.slice(1).map(v => v >= 0 ? '#00C896' : '#E84040'),
+      borderWidth: 1
+    }]
+  },
+  options: {
+    ...baseOpts(),
+    scales: {
+      x: { grid: { color: gridColor }, ticks: { maxRotation: 45 } },
+      y: { grid: { color: gridColor }, ticks: { callback: v => v+'%' } }
+    },
+    plugins: {
+      ...baseOpts().plugins,
+      tooltip: {
+        ...baseOpts().plugins.tooltip,
+        callbacks: { label: ctx => ctx.parsed.y.toFixed(2)+'%' }
+      }
+    }
+  }
+});
+
+// ─── CHART 3: Vessels + TPV dual axis ───
+new Chart(document.getElementById('chartVesselsTPV'), {
+  type: 'bar',
+  data: {
+    labels: years,
+    datasets: [{
+      label: 'Vessel Calls',
+      data: vessels,
+      backgroundColor: 'rgba(0,168,232,0.5)',
+      borderColor: '#00A8E8',
+      borderWidth: 1,
+      yAxisID: 'y'
+    },{
+      type: 'line',
+      label: 'TEU/Vessel',
+      data: tpv,
+      borderColor: '#D4A843',
+      backgroundColor: 'transparent',
+      borderWidth: 2,
+      pointRadius: 3,
+      tension: 0.4,
+      yAxisID: 'y2'
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: true, labels: { color: '#B0B8C4', boxWidth: 16 } },
+      tooltip: { ...baseOpts().plugins.tooltip }
+    },
+    scales: {
+      x: { grid: { color: gridColor }, ticks: { maxRotation: 45 } },
+      y: { grid: { color: gridColor }, position: 'left', title: { display: true, text: 'Vessels', color: '#B0B8C4' } },
+      y2: { grid: { color: 'transparent' }, position: 'right', title: { display: true, text: 'TEU/Vessel', color: '#D4A843' }, ticks: { color: '#D4A843' } }
+    }
+  }
+});
+
+// ─── CHART 4: TEU/Vessel bubble-style ───
+new Chart(document.getElementById('chartTPV'), {
+  type: 'line',
+  data: {
+    labels: years,
+    datasets: [{
+      label: 'TEU per Vessel',
+      data: tpv,
+      borderColor: '#D4A843',
+      backgroundColor: (ctx) => {
+        const chart = ctx.chart;
+        const {ctx: c, chartArea} = chart;
+        if (!chartArea) return 'rgba(212,168,67,0.1)';
+        const g = c.createLinearGradient(0, chartArea.bottom, 0, chartArea.top);
+        g.addColorStop(0, 'rgba(212,168,67,0.02)');
+        g.addColorStop(1, 'rgba(212,168,67,0.25)');
+        return g;
+      },
+      borderWidth: 2.5,
+      fill: true,
+      tension: 0.4,
+      pointBackgroundColor: tpv.map(v => v > 1300 ? '#D4A843' : 'rgba(212,168,67,0.5)'),
+      pointRadius: tpv.map(v => v > 1300 ? 6 : 3)
+    }]
+  },
+  options: {
+    ...baseOpts(),
+    plugins: {
+      ...baseOpts().plugins,
+      annotation: {}
+    }
+  }
+});
+
+// ─── CHART 5: Crane Productivity ───
+new Chart(document.getElementById('chartCrane'), {
+  type: 'bar',
+  data: {
+    labels: years,
+    datasets: [{
+      label: 'CGMPH',
+      data: crane,
+      backgroundColor: crane.map(v =>
+        v >= 14 ? 'rgba(0,200,150,0.8)' :
+        v >= 10 ? 'rgba(212,168,67,0.7)' :
+        'rgba(0,168,232,0.6)'
+      ),
+      borderRadius: 2
+    }]
+  },
+  options: {
+    ...baseOpts(),
+    plugins: {
+      ...baseOpts().plugins,
+      legend: { display: false }
+    }
+  }
+});
+
+// ─── CHART 6: TEU Ratio ───
+new Chart(document.getElementById('chartRatio'), {
+  type: 'line',
+  data: {
+    labels: years,
+    datasets: [{
+      label: 'TEU Ratio',
+      data: teuRatio,
+      borderColor: '#00A8E8',
+      backgroundColor: 'rgba(0,168,232,0.08)',
+      fill: true,
+      tension: 0.3,
+      pointRadius: 3,
+      borderWidth: 2
+    }]
+  },
+  options: {
+    ...baseOpts(),
+    scales: {
+      x: { grid: { color: gridColor } },
+      y: { grid: { color: gridColor }, min: 1.4, max: 1.8 }
+    }
+  }
+});
+
+// ─── CHART 7: Time Stacked Bar ───
+new Chart(document.getElementById('chartTimeStack'), {
+  type: 'bar',
+  data: {
+    labels: years,
+    datasets: [{
+      label: 'Anchorage (days)',
+      data: anchorage,
+      backgroundColor: 'rgba(0,168,232,0.7)',
+      stack: 'time'
+    },{
+      label: 'At Berth (days)',
+      data: berth,
+      backgroundColor: 'rgba(212,168,67,0.7)',
+      stack: 'time'
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: true, labels: { color: '#B0B8C4', boxWidth: 12 } },
+      tooltip: { ...baseOpts().plugins.tooltip }
+    },
+    scales: {
+      x: { stacked: true, grid: { color: gridColor }, ticks: { maxRotation: 45 } },
+      y: { stacked: true, grid: { color: gridColor }, title: { display: true, text: 'Days', color: '#B0B8C4' } }
+    }
+  }
+});
+
+// ─── CHART 8: Port Call Line ───
+new Chart(document.getElementById('chartPortCall'), {
+  type: 'line',
+  data: {
+    labels: years,
+    datasets: [{
+      label: 'Port Call (days)',
+      data: portcall,
+      borderColor: '#E84040',
+      backgroundColor: 'rgba(232,64,64,0.08)',
+      fill: true,
+      tension: 0.4,
+      pointBackgroundColor: portcall.map(v => v <= 4 ? '#00C896' : '#E84040'),
+      pointRadius: 5,
+      borderWidth: 2.5
+    }]
+  },
+  options: {
+    ...baseOpts(),
+    scales: {
+      x: { grid: { color: gridColor } },
+      y: { grid: { color: gridColor }, title: { display: true, text: 'Days', color: '#B0B8C4' } }
+    }
+  }
+});
+
+// ─── CHART 9: Time Area ───
+new Chart(document.getElementById('chartTimeArea'), {
+  type: 'line',
+  data: {
+    labels: years,
+    datasets: [{
+      label: 'Anchorage',
+      data: anchorage,
+      borderColor: '#00A8E8',
+      backgroundColor: 'rgba(0,168,232,0.3)',
+      fill: true,
+      tension: 0.4,
+      borderWidth: 2,
+      pointRadius: 3
+    },{
+      label: 'Berth Stay',
+      data: berth,
+      borderColor: '#D4A843',
+      backgroundColor: 'rgba(212,168,67,0.25)',
+      fill: true,
+      tension: 0.4,
+      borderWidth: 2,
+      pointRadius: 3
+    },{
+      label: 'Total Port Call',
+      data: portcall,
+      borderColor: '#E84040',
+      backgroundColor: 'transparent',
+      fill: false,
+      tension: 0.4,
+      borderWidth: 2.5,
+      borderDash: [5,3],
+      pointRadius: 4
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: true, labels: { color: '#B0B8C4', boxWidth: 14 } },
+      tooltip: { ...baseOpts().plugins.tooltip }
+    },
+    scales: {
+      x: { grid: { color: gridColor } },
+      y: { grid: { color: gridColor }, title: { display: true, text: 'Days', color: '#B0B8C4' } }
+    }
+  }
+});
+
+// ─── CHART 10: Berth Occupancy ───
+new Chart(document.getElementById('chartBerth'), {
+  type: 'bar',
+  data: {
+    labels: years,
+    datasets: [{
+      label: 'Berth Occ %',
+      data: berthOcc,
+      backgroundColor: berthOcc.map(v => v >= 80 ? 'rgba(232,64,64,0.75)' : v >= 60 ? 'rgba(212,168,67,0.7)' : 'rgba(0,200,150,0.6)'),
+      borderRadius: 2
+    }]
+  },
+  options: {
+    ...baseOpts(),
+    scales: {
+      x: { grid: { color: gridColor }, ticks: { maxRotation: 45 } },
+      y: { grid: { color: gridColor }, max: 110, ticks: { callback: v => v+'%' } }
+    }
+  }
+});
+
+// ─── CHART 11: Yard Occupancy ───
+new Chart(document.getElementById('chartYard'), {
+  type: 'bar',
+  data: {
+    labels: years,
+    datasets: [{
+      label: 'Yard Occ %',
+      data: yardOcc,
+      backgroundColor: yardOcc.map(v => v >= 85 ? 'rgba(232,64,64,0.75)' : v >= 65 ? 'rgba(212,168,67,0.7)' : 'rgba(0,200,150,0.6)'),
+      borderRadius: 2
+    }]
+  },
+  options: {
+    ...baseOpts(),
+    scales: {
+      x: { grid: { color: gridColor }, ticks: { maxRotation: 45 } },
+      y: { grid: { color: gridColor }, max: 110, ticks: { callback: v => v+'%' } }
+    }
+  }
+});
+
+// ─── CHART 12: Dwell Time ───
+new Chart(document.getElementById('chartDwell'), {
+  type: 'line',
+  data: {
+    labels: years,
+    datasets: [{
+      label: 'Dwell Time (days)',
+      data: dwell,
+      borderColor: '#D4A843',
+      backgroundColor: 'rgba(212,168,67,0.1)',
+      fill: true,
+      tension: 0.4,
+      pointRadius: 3,
+      borderWidth: 2
+    }]
+  },
+  options: {
+    ...baseOpts(),
+    scales: {
+      x: { grid: { color: gridColor }, ticks: { maxRotation: 45 } },
+      y: { grid: { color: gridColor }, title: { display: true, text: 'Days', color: '#B0B8C4' } }
+    }
+  }
+});
+
+// ─── CHART 13: CAGR Horizontal Bar ───
+const cagrData = [
+  { label: 'Monthly TEU', val: 4.06, col: '#D4A843' },
+  { label: 'Container Boxes', val: 3.56, col: '#00A8E8' },
+  { label: 'TEU / Vessel', val: 3.39, col: '#00C896' },
+  { label: 'Crane Productivity', val: 4.74, col: '#D4A843' },
+];
+new Chart(document.getElementById('chartCAGR'), {
+  type: 'bar',
+  data: {
+    labels: cagrData.map(d=>d.label),
+    datasets: [{
+      label: 'CAGR %',
+      data: cagrData.map(d=>d.val),
+      backgroundColor: cagrData.map(d=>d.col),
+      borderRadius: 3
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        ...baseOpts().plugins.tooltip,
+        callbacks: { label: ctx => ctx.parsed.x.toFixed(2)+'% CAGR' }
+      }
+    },
+    scales: {
+      x: { grid: { color: gridColor }, ticks: { callback: v => v+'%' }, max: 6 },
+      y: { grid: { color: 'transparent' } }
+    }
+  }
+});
+
+// ─── CHART 14: Indexed Performance ───
+new Chart(document.getElementById('chartIndexed'), {
+  type: 'line',
+  data: {
+    labels: years,
+    datasets: [
+      { label: 'TEU', data: teus.map(v => (v/teus[0]*100).toFixed(1)), borderColor: '#D4A843', tension: 0.4, pointRadius: 0, borderWidth: 2 },
+      { label: 'TEU/Vessel', data: tpv.map(v => (v/tpv[0]*100).toFixed(1)), borderColor: '#00C896', tension: 0.4, pointRadius: 0, borderWidth: 2 },
+      { label: 'Crane Prod', data: crane.map(v => (v/crane[0]*100).toFixed(1)), borderColor: '#00A8E8', tension: 0.4, pointRadius: 0, borderWidth: 2 },
+      { label: 'Port Call (inv)', data: portcall.map(v => (portcall[0]/v*100).toFixed(1)), borderColor: '#E84040', tension: 0.4, pointRadius: 0, borderDash: [4,2], borderWidth: 2 }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: true, labels: { color: '#B0B8C4', boxWidth: 12, font: { size: 10 } } },
+      tooltip: { ...baseOpts().plugins.tooltip }
+    },
+    scales: {
+      x: { grid: { color: gridColor } },
+      y: { grid: { color: gridColor }, title: { display: true, text: 'Index (2009=100)', color: '#B0B8C4' } }
+    }
+  }
+});
+
+// ─── CHART 15: Correlation Scatter - TEU/Vessel vs Crane ───
+new Chart(document.getElementById('chartCorr1'), {
+  type: 'scatter',
+  data: {
+    datasets: [{
+      label: 'Year',
+      data: tpv.map((v,i) => ({ x: crane[i], y: v })),
+      backgroundColor: tpv.map((v,i) => {
+        const t = i/(tpv.length-1);
+        const r = Math.round(232*(1-t));
+        const g = Math.round(64 + 136*t);
+        return `rgba(${r}, ${g}, 67, 0.8)`;
+      }),
+      pointRadius: 6
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        ...baseOpts().plugins.tooltip,
+        callbacks: {
+          label: ctx => `${years[ctx.dataIndex]}: Crane ${ctx.parsed.x} CGMPH, TEU/Vessel ${ctx.parsed.y.toFixed(0)}`
+        }
+      }
+    },
+    scales: {
+      x: { grid: { color: gridColor }, title: { display: true, text: 'Crane Productivity (CGMPH)', color: '#B0B8C4' } },
+      y: { grid: { color: gridColor }, title: { display: true, text: 'TEU per Vessel', color: '#B0B8C4' } }
+    }
+  }
+});
+
+// ─── CHART 16: Corr - Port Call vs TEU/Vessel ───
+new Chart(document.getElementById('chartCorr2'), {
+  type: 'scatter',
+  data: {
+    datasets: [{
+      label: 'Year',
+      data: portcall.map((v,i) => ({ x: v, y: tpv[i] })),
+      backgroundColor: portcall.map((v,i) => {
+        const t = i/(portcall.length-1);
+        return `rgba(0, ${Math.round(100+100*t)}, ${Math.round(168+80*t)}, 0.8)`;
+      }),
+      pointRadius: 6
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        ...baseOpts().plugins.tooltip,
+        callbacks: {
+          label: ctx => `${years[ctx.dataIndex]}: ${ctx.parsed.x} days call, ${ctx.parsed.y.toFixed(0)} TEU/vessel`
+        }
+      }
+    },
+    scales: {
+      x: { grid: { color: gridColor }, title: { display: true, text: 'Port Call Duration (days)', color: '#B0B8C4' }, reverse: false },
+      y: { grid: { color: gridColor }, title: { display: true, text: 'TEU per Vessel', color: '#B0B8C4' } }
+    }
+  }
+});
+
+// ─── CHART 17: Radar ───
+const r2009 = [
+  teus[0]/teus[teus.length-1]*100,
+  tpv[0]/tpv[tpv.length-1]*100,
+  crane[0]/crane[crane.length-1]*100,
+  portcall[portcall.length-1]/portcall[0]*100,
+  berthOcc[0],
+  (100 - dwell[0]/30*100)
+];
+const r2025 = [100,100,100,100,100,100];
+const r2018 = [
+  teus[9]/teus[teus.length-1]*100,
+  tpv[9]/tpv[tpv.length-1]*100,
+  crane[9]/crane[crane.length-1]*100,
+  portcall[portcall.length-1]/portcall[9]*100,
+  berthOcc[9],
+  (100 - dwell[9]/30*100)
+];
+new Chart(document.getElementById('chartRadar'), {
+  type: 'radar',
+  data: {
+    labels: ['TEU Volume', 'TEU/Vessel', 'Crane Productivity', 'Port Efficiency', 'Berth Utilization', 'Container Fluidity'],
+    datasets: [{
+      label: '2009 Baseline',
+      data: r2009.map(v => Math.max(0, Math.min(100, v))),
+      borderColor: 'rgba(232,64,64,0.8)',
+      backgroundColor: 'rgba(232,64,64,0.1)',
+      borderWidth: 2,
+      pointRadius: 4
+    },{
+      label: '2018 Peak Efficiency',
+      data: [83, 66, 100, 100, 46, 43],
+      borderColor: 'rgba(0,168,232,0.8)',
+      backgroundColor: 'rgba(0,168,232,0.08)',
+      borderWidth: 2,
+      borderDash: [4,2],
+      pointRadius: 4
+    },{
+      label: '2025 Current',
+      data: [100,100,100,100,91.9,38],
+      borderColor: '#D4A843',
+      backgroundColor: 'rgba(212,168,67,0.12)',
+      borderWidth: 2.5,
+      pointRadius: 5
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: true, position: 'bottom', labels: { color: '#B0B8C4', boxWidth: 14 } },
+      tooltip: { ...baseOpts().plugins.tooltip }
+    },
+    scales: {
+      r: {
+        grid: { color: 'rgba(255,255,255,0.08)' },
+        ticks: { display: false },
+        pointLabels: { color: '#B0B8C4', font: { size: 12, weight: '600' } }
+      }
+    }
+  }
+});
+
+// ─── HEATMAP TABLE ───
+(function() {
+  const kpis = [
+    { name: 'Monthly TEU (000)', vals: teus.map(v=>(v/1000).toFixed(0)), invert: false },
+    { name: 'Vessel Calls', vals: vessels.map(v=>v), invert: false },
+    { name: 'TEU / Vessel', vals: tpv.map(v=>v.toFixed(0)), invert: false },
+    { name: 'Anchorage (days)', vals: anchorage.map(v=>v.toFixed(2)), invert: true },
+    { name: 'Berth Stay (days)', vals: berth.map(v=>v.toFixed(2)), invert: true },
+    { name: 'Port Call (days)', vals: portcall.map(v=>v.toFixed(2)), invert: true },
+    { name: 'Crane CGMPH', vals: crane.map(v=>v.toFixed(2)), invert: false },
+    { name: 'Dwell Time (days)', vals: dwell.map(v=>v.toFixed(1)), invert: true },
+    { name: 'Berth Occ %', vals: berthOcc.map(v=>v.toFixed(1)), invert: false },
+    { name: 'Yard Occ %', vals: yardOcc.map(v=>v.toFixed(1)), invert: false },
+    { name: 'TEU Ratio', vals: teuRatio.map(v=>v.toFixed(3)), invert: false },
+  ];
+
+  let html = '<table style="width:100%;border-collapse:collapse;font-size:11px;">';
+  // Header
+  html += '<thead><tr>';
+  html += '<th style="text-align:left;padding:8px 12px;background:#001A3C;color:#D4A843;font-size:10px;letter-spacing:2px;text-transform:uppercase;border:1px solid rgba(255,255,255,0.06);white-space:nowrap;">KPI</th>';
+  years.forEach(y => {
+    html += `<th style="padding:6px 8px;background:#001A3C;color:#D4A843;font-size:10px;letter-spacing:1px;border:1px solid rgba(255,255,255,0.06);text-align:center;">${y}</th>`;
+  });
+  html += '</tr></thead><tbody>';
+
+  kpis.forEach((kpi, ki) => {
+    const nums = kpi.vals.map(v => parseFloat(v));
+    const mn = Math.min(...nums), mx = Math.max(...nums);
+    html += `<tr>`;
+    html += `<td style="padding:7px 12px;border:1px solid rgba(255,255,255,0.06);color:#B0B8C4;white-space:nowrap;background:rgba(0,26,60,0.8);font-weight:500;">${kpi.name}</td>`;
+    nums.forEach((n, i) => {
+      const t = mx > mn ? (n - mn) / (mx - mn) : 0.5;
+      const eff = kpi.invert ? (1 - t) : t;
+      const r = Math.round(232*(1-eff) + 0*eff);
+      const g = Math.round(64*(1-eff) + 200*eff);
+      const b = Math.round(64*(1-eff) + 150*eff);
+      const bg = `rgba(${r},${g},${b},0.25)`;
+      const isFirst = i === 0, isLast = i === nums.length-1;
+      const fw = (isFirst || isLast) ? '700' : '400';
+      html += `<td style="padding:6px 8px;border:1px solid rgba(255,255,255,0.05);background:${bg};text-align:center;color:#fff;font-weight:${fw};">${kpi.vals[i]}</td>`;
+    });
+    html += '</tr>';
+  });
+  html += '</tbody></table>';
+  document.getElementById('heatmap').innerHTML = html;
+})();
+</script>
+</body>
+</html>
